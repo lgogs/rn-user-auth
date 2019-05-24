@@ -2,7 +2,7 @@ import { Navigation } from 'react-native-navigation';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { Provider } from 'react-redux';
 
-import store from './src/components/store/index';
+import store, { pStore } from './src/components/store/configureStore';
 import Signup from './src/components/screens/Singup/Signup';
 import Login from './src/components/screens/Login/Login';
 import ProfileView from './src/components/screens/Profile/ProfileView';
@@ -20,16 +20,16 @@ Promise.all([
   Navigation.startTabBasedApp({
     tabs: [
       {
-        screen: "SignupScreen",
-        label: "Sign up",
-        title: "Sign Up",
-        icon: sources[0]
-      },
-      {
         screen: "LoginScreen",
         label: "Log in",
         title: "Log In",
         icon: sources[1]
+      },
+      {
+        screen: "SignupScreen",
+        label: "Sign up",
+        title: "Sign Up",
+        icon: sources[0]
       }
     ]
   });

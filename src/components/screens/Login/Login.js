@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Button, TextInput, StyleSheet } from 'react-native';
+import { View, Button, TextInput, ActivityIndicator, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { userLoggedIn } from '../../store/actions/index';
 import BackgroundImage from '../../custom/backgroundImage';
@@ -8,7 +8,9 @@ import * as firebase from 'firebase';
 class Login extends Component {
   state = {
     email: '',
-    password: ''
+    password: '',
+
+    showLoginPage: false
   };
 
   emailChangedHandler = email => {
@@ -42,7 +44,25 @@ class Login extends Component {
       });
   };
 
+  componentDidMount() {
+    if (this.props.fullInfo.uid) {
+      this.props.navigator.showModal({ screen: 'ProfileViewScreen' });
+    } else {
+      this.setState({ showLoginPage: true });
+    }
+  };
+
+  componentWillReceiveProps = nextProps => {
+    if (!nextProps.fullInfo.uid) {
+      this.setState({ showLoginPage: true });
+    }
+  };
+
   render () {
+    if (!this.state.showLoginPage) {
+      return <ActivityIndicator style={styles.mainContainer} />
+    }
+
     return (
       <BackgroundImage>
         <View style={styles.mainContainer}>
@@ -97,4 +117,10 @@ const styles = StyleSheet.create({
   }
 });
 
-export default connect(null, { userLoggedIn })(Login);
+const mapStateToProps = ({ fullInfo }) => {
+  return {
+    fullInfo
+  };
+};
+
+export default connect(mapStateToProps, { userLoggedIn })(Login);

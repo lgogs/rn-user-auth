@@ -43,7 +43,7 @@ class Signup extends Component {
       });
   };
 
-  render () {
+  render() {
     let color = this.state.password !== this.state.confirmPassword ? 'red' : '#eee';
 
     return (
@@ -68,7 +68,7 @@ class Signup extends Component {
               placeholderTextColor='#eee'
             />
             <TextInput
-              style={[styles.input, {borderColor: color}]}
+              style={[styles.input, { borderColor: color }]}
               value={this.state.confirmPassword}
               onChangeText={this.confirmPasswordChangedHandler}
               autoCapitalize="none"
