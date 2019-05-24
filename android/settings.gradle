@@ -1,0 +1,3 @@
+rootProject.name = 'rn_user_auth'
+
+include ':app'
