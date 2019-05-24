@@ -1,49 +1,36 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
+import { Navigation } from 'react-native-navigation';
+import Icon from 'react-native-vector-icons/Ionicons';
+import { Provider } from 'react-redux';
 
-import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import store from './src/components/store/index';
+import Signup from './src/components/screens/Singup/Signup';
+import Login from './src/components/screens/Login/Login';
+import ProfileView from './src/components/screens/Profile/ProfileView';
+import FullInfo from './src/components/screens/Profile/FullInfo';
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android:
-    'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
+Navigation.registerComponent('SignupScreen', () => Signup);
+Navigation.registerComponent('LoginScreen', () => Login, store, Provider);
+Navigation.registerComponent('ProfileViewScreen', () => ProfileView, store, Provider);
+Navigation.registerComponent('FullInfoScreen', () => FullInfo, store, Provider);
 
-type Props = {};
-export default class App extends Component<Props> {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>Welcome to React Native!</Text>
-        <Text style={styles.instructions}>To get started, edit App.js</Text>
-        <Text style={styles.instructions}>{instructions}</Text>
-      </View>
-    );
-  }
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
+Promise.all([
+  Icon.getImageSource('ios-contact', 30),
+  Icon.getImageSource('ios-log-in', 30)
+]).then(sources => {
+  Navigation.startTabBasedApp({
+    tabs: [
+      {
+        screen: "SignupScreen",
+        label: "Sign up",
+        title: "Sign Up",
+        icon: sources[0]
+      },
+      {
+        screen: "LoginScreen",
+        label: "Log in",
+        title: "Log In",
+        icon: sources[1]
+      }
+    ]
+  });
+})
